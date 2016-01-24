@@ -978,7 +978,7 @@ namespace TiledGGD
             this.aboutBox.ShowIcon = false;
             this.aboutBox.ShowInTaskbar = false;
             this.aboutBox.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.aboutBox.Text = "About TiledGGD";
+            //this.aboutBox.Text = "About TiledGGD";
             this.aboutBox.Visible = false;
             // 
             // MainWindow
@@ -992,7 +992,7 @@ namespace TiledGGD
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "TiledGGD";
+            this.Text = "TiledGGD (PE)";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

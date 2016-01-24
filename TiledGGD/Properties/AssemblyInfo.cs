@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TiledGGD")]
-[assembly: AssemblyDescription("GGD with some extra capabilities.\r\n\r\nSourcecode is availabe at http://code.google.com/p/tiledggd \r\n\r\nProgram icon made by mega rock.exe")]
+[assembly: AssemblyTitle("TiledGGD (PE)")]
+[assembly: AssemblyDescription("TiledGGD (Puggsoy Edit), a fork of Barubary's TiledGGD.\r\n\r\nSourcecode is availabe at http://code.google.com/p/tiledggd \r\n\r\nProgram icon made by mega rock.exe")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TiledGGD")]
+[assembly: AssemblyProduct("TiledGGD (PE)")]
 [assembly: AssemblyCopyright("Released under the MIT License")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
