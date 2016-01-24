@@ -524,9 +524,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels)
                             break;
                         if (IsBigEndian)
-                            j = (uint)(bt & (0x01 << b));
-                        else
                             j = (uint)(bt & (0x80 >> b));
+                        else
+                            j = (uint)(bt & (0x01 << b));
 
                         if (++xintl == TileSize.X)
                         {
@@ -562,9 +562,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels) // disregard pixels outside of the screen
                             break;
                         if (IsBigEndian)
-                            j = (uint)(bt & (0x01 << b));
-                        else
                             j = (uint)(bt & (0x80 >> b));
+                        else
+                            j = (uint)(bt & (0x01 << b));
 
                         *(bmptr++) = palette[j > 0 ? 1 : 0];
                     }
@@ -617,9 +617,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels)
                             break;
                         if (IsBigEndian)
-                            j = (uint)((bt & (0x03 << (b * 2))) >> (b * 2));
-                        else
                             j = (uint)((bt & (0xC0 >> (b * 2))) >> ((3 - b) * 2));
+                        else
+                            j = (uint)((bt & (0x03 << (b * 2))) >> (b * 2));
 
                         if (++xintl == TileSize.X)
                         {
@@ -655,9 +655,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels)
                             break;
                         if (IsBigEndian)
-                            j = (uint)((bt & (0x03 << (b * 2))) >> (b * 2));
-                        else
                             j = (uint)((bt & (0xC0 >> (b * 2))) >> ((3 - b) * 2));
+                        else
+                            j = (uint)((bt & (0x03 << (b * 2))) >> (b * 2));
 
                         *(bmptr++) = palette[j];
                     }
@@ -710,9 +710,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels)
                             break;
                         if (IsBigEndian)
-                            j = (uint)((bt & (0x0F << (b * 4))) >> (b * 4));
-                        else
                             j = (uint)((bt & (0xF0 >> (b * 4))) >> ((1 - b) * 4));
+                        else
+                            j = (uint)((bt & (0x0F << (b * 4))) >> (b * 4));
 
                         if (++xintl == TileSize.X)
                         {
@@ -748,9 +748,9 @@ namespace TiledGGD
                         if (++pixNum > nPixels)
                             break;
                         if (IsBigEndian)
-                            j = (uint)((bt & (0x0F << (b * 4))) >> (b * 4));
-                        else
                             j = (uint)((bt & (0xF0 >> (b * 4))) >> ((1 - b) * 4));
+                        else
+                            j = (uint)((bt & (0x0F << (b * 4))) >> (b * 4));
 
                         *(bmptr++) = palette[j];
                     }

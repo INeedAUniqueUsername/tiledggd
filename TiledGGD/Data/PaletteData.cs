@@ -404,13 +404,13 @@ namespace TiledGGD
                     case PaletteFormat.FORMAT_2BPP:
                         if (bendian)
                         {
-                            b1 = (uint)data[1];
-                            b2 = (uint)data[0];
+                            b1 = (uint)data[0];
+                            b2 = (uint)data[1];
                         }
                         else
                         {
-                            b1 = (uint)data[0];
-                            b2 = (uint)data[1];
+                            b2 = (uint)data[0];
+                            b1 = (uint)data[1];
                         }
                         bt = (b1 << 8) | b2;
                         // if alphalocation == none, assume alpha at start
@@ -449,9 +449,9 @@ namespace TiledGGD
                         }
                         else
                         {
-                            fst = b3 = (uint)data[0];
+                            thd = b3 = (uint)data[0];
                             scn = b2 = (uint)data[1];
-                            thd = b1 = (uint)data[2];
+                            fst = b1 = (uint)data[2];
                         }
                         break;
                     #endregion
@@ -594,7 +594,7 @@ namespace TiledGGD
                             if (atEnd) break;
                             fst = Next(out atEnd);
                         }
-                        bt = fst | (scn << 8);
+                        bt = (fst << 8) | scn;
 
                         switch (AlphaSettings.Location)
                         {
@@ -648,19 +648,19 @@ namespace TiledGGD
                     {
                         if (isBigEndian)
                         {
-                            fth = Next(out atEnd);
-                            if (atEnd) break;
-                            thd = Next(out atEnd);
-                            scn = Next(out atEnd);
                             fst = Next(out atEnd);
+                            if (atEnd) break;
+                            scn = Next(out atEnd);
+                            thd = Next(out atEnd);
+                            fth = Next(out atEnd);
                         }
                         else
                         {
-                            fst = Next(out atEnd);
-                            if (atEnd) break;
-                            scn = Next(out atEnd);
-                            thd = Next(out atEnd);
                             fth = Next(out atEnd);
+                            if (atEnd) break;
+                            thd = Next(out atEnd);
+                            scn = Next(out atEnd);
+                            fst = Next(out atEnd);
                         }
                         switch (AlphaSettings.Location)
                         {
