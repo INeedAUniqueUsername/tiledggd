@@ -458,7 +458,7 @@ namespace TiledGGD
 
                     #region case 4BPP
                     case PaletteFormat.FORMAT_4BPP:
-                        if (!bendian)
+                        if (bendian)
                         {
                             b1 = (UInt32)data[0];
                             b2 = (UInt32)data[1];
