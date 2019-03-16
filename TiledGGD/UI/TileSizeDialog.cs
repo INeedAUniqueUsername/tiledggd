@@ -8,18 +8,15 @@ using System.Windows.Forms;
 
 namespace TiledGGD.UI
 {
-    public partial class TileSizeDialog : Form
+    public partial class SizeDialog : Form
     {
         private Point currentTileSize;
 
-        public Point NewTileSize
-        {
-            get
-            {
+        public Point NewSize {
+            get {
                 if (!accepted)
                     return currentTileSize;
-                else
-                {
+                else {
                     Point p = new Point();
                     p.X = int.Parse(this.textBox1.Text);
                     p.Y = int.Parse(this.textBox2.Text);
@@ -30,27 +27,23 @@ namespace TiledGGD.UI
 
         private bool accepted = false;
         
-        public TileSizeDialog(Point currentTileSize)
-        {
+        public SizeDialog(Point currentTileSize) {
             InitializeComponent();
 
             this.currentTileSize = currentTileSize;
-            this.textBox1.Text = currentTileSize.X + "";
-            this.textBox2.Text = currentTileSize.Y + "";
+            this.textBox1.Text = currentTileSize.X.ToString();
+            this.textBox2.Text = currentTileSize.Y.ToString();
         }
 
-        private void click_OK(object sender, EventArgs e)
-        {
+        private void click_OK(object sender, EventArgs e) {
             accepted = true;
-            this.Hide();
+            Hide();
         }
-        private void click_Cancel(object sender, EventArgs e)
-        {
-            this.Hide();
+        private void click_Cancel(object sender, EventArgs e) {
+            Hide();
         }
 
-        private void checkText(object sender, EventArgs e)
-        {
+        private void checkText(object sender, EventArgs e) {
             string str = (sender as TextBox).Text;
             string newstr = "";
             foreach (char c in str)
@@ -66,8 +59,7 @@ namespace TiledGGD.UI
             (sender as TextBox).SelectionStart = newstr.Length;
         }
 
-        private void checkEnter(object sender, KeyEventArgs e)
-        {
+        private void checkEnter(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter)
                 click_OK(sender, e);
         }

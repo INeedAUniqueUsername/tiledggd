@@ -1,6 +1,6 @@
 namespace TiledGGD.UI
 {
-    partial class TileSizeDialog
+    partial class SizeDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@ namespace TiledGGD.UI
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Enter the new Tile Size:";
+            this.label1.Text = "Enter the new size:";
             // 
             // textBox1
             // 
