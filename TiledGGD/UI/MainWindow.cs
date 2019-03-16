@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using TiledGGD.BindingTools;
@@ -701,7 +702,8 @@ break;
             ofd.Multiselect = false;
             ofd.Title = "Open file as Graphics";
             DialogResult res = ofd.ShowDialog();
-            if (res == DialogResult.OK || res == DialogResult.Yes)
+
+			if (res == DialogResult.OK || res == DialogResult.Yes)
             {
                 graphicsData.load(ofd.FileName);
                 if (!paletteData.HasData)
@@ -709,10 +711,38 @@ break;
                 DoRefresh();
             }
         }
-        #endregion
+		#endregion
 
-        #region load palette
-        private void openPalTSMI_Click(object sender, EventArgs e)
+		#region Batch Convert graphics
+		private void batchConvertGraphTSMI_Click(object sender, EventArgs e) {
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "Any file (*.*)|*.*";
+			ofd.RestoreDirectory = true;
+			ofd.ShowHelp = false;
+			ofd.Multiselect = true;
+			ofd.Title = "Batch Convert files as Graphics";
+			DialogResult res = ofd.ShowDialog();
+
+			if (res == DialogResult.OK || res == DialogResult.Yes) {
+
+				var fdb = new FolderBrowserDialog();
+				DialogResult result = fdb.ShowDialog();
+				if (result == DialogResult.OK) {
+					string saveFolder = fdb.SelectedPath;
+					foreach (string loadPath in ofd.FileNames) {
+						graphicsData.load(loadPath);
+						if (!paletteData.HasData)
+							paletteData.load(ofd.FileName);
+						string savePath = Path.Combine(saveFolder, Path.GetFileNameWithoutExtension(loadPath) + ".png");
+						graphicsData.toBitmap().Save(savePath, System.Drawing.Imaging.ImageFormat.Png);
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region load palette
+		private void openPalTSMI_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Any file (*.*)|*.*";

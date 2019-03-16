@@ -33,7 +33,8 @@ namespace TiledGGD
             menuFileOpenGraph = new System.Windows.Forms.ToolStripMenuItem();
             menuFileSaveGraphics = new System.Windows.Forms.ToolStripMenuItem();
             menuFileSaveAllGraphics = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			menuFileBatchConvertGraphics = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             menuFileOpenPalette = new System.Windows.Forms.ToolStripMenuItem();
             menuFileSavePalette = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -153,7 +154,8 @@ namespace TiledGGD
             menuFileOpenGraph,
             menuFileSaveGraphics,
             menuFileSaveAllGraphics,
-            toolStripSeparator2,
+			menuFileBatchConvertGraphics,
+			toolStripSeparator2,
             menuFileOpenPalette,
             menuFileSavePalette,
             toolStripSeparator1,
@@ -186,10 +188,16 @@ namespace TiledGGD
             menuFileSaveAllGraphics.Size = new System.Drawing.Size(226, 22);
             menuFileSaveAllGraphics.Text = "Save All Graphics...";
             menuFileSaveAllGraphics.Click += new System.EventHandler(saveallGraphTSMI_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
+
+			menuFileBatchConvertGraphics.Name = "batchConvertGraphicsToolStripMenuItem";
+			menuFileBatchConvertGraphics.Size = new System.Drawing.Size(226, 22);
+			menuFileBatchConvertGraphics.Text = "Batch Convert Graphics...";
+			menuFileBatchConvertGraphics.Click += new System.EventHandler(batchConvertGraphTSMI_Click);
+
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new System.Drawing.Size(223, 6);
             // 
             // openPalTSMI
@@ -1111,6 +1119,7 @@ namespace TiledGGD
 		private System.Windows.Forms.ToolStripMenuItem palReload_specTSMI;
 		private System.Windows.Forms.ToolStripMenuItem graphSS_1tlTSMI;
 		private System.Windows.Forms.ToolStripMenuItem menuFileSaveAllGraphics;
+		private System.Windows.Forms.ToolStripMenuItem menuFileBatchConvertGraphics;
 		private System.Windows.Forms.ToolStripMenuItem menuFileReloadBindings;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem palModeTSMI;
