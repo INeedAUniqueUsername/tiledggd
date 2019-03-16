@@ -61,22 +61,59 @@ namespace TiledGGD
         {
             switch (e.KeyCode)
             {
-                case Keys.P: paletteData.TogglePaletteOrder(); break;
+                case Keys.P: if (e.Shift) paletteData.TogglePaletteOrder(); break;
                 case Keys.O: paletteData.toggleFormat(); break;
                 case Keys.End: paletteData.DoSkip(true); break;
                 case Keys.Home: paletteData.DoSkip(false); break;
-                case Keys.Up: graphicsData.decreaseHeight(); break;
-                case Keys.Down: graphicsData.increaseHeight(); break;
-                case Keys.Left: graphicsData.decreaseWidth(); break;
-                case Keys.Right: graphicsData.increaseWidth(); break;
-                case Keys.Subtract: GraphicsData.Zoom /= 2; break;
-                case Keys.Add: GraphicsData.Zoom *= 2; break;
+                case Keys.Up:
+					if(e.Shift)
+						GraphicsData.Zoom *= 2;
+					else
+						graphicsData.decreaseHeight();
+					break;
+                case Keys.Down:
+					if (e.Shift)
+						GraphicsData.Zoom /= 2;
+					else
+						graphicsData.increaseHeight();
+					break;
+                case Keys.Left:
+					if(e.Shift)
+						graphicsData.Offset--;
+					else
+						graphicsData.decreaseWidth();
+					break;
+                case Keys.Right:
+					if (e.Shift)
+						graphicsData.Offset++;
+					else
+						graphicsData.increaseWidth();
+					break;
                 case Keys.PageDown: graphicsData.DoSkip(true); break;
                 case Keys.PageUp: graphicsData.DoSkip(false); break;
                 case Keys.B: graphicsData.toggleGraphicsFormat(); break;
-                case Keys.F: if (e.Shift) paletteData.toggleTiled(); else graphicsData.toggleTiled(); break;
-                case Keys.E: if (e.Control) graphicsData.toggleEndianness(); else if (e.Shift) paletteData.toggleEndianness(); else return; break;
-                case Keys.Z: if (e.Control) graphicsData.toggleSkipSize(); else if (e.Shift) paletteData.toggleSkipSize(); else return; break;
+                case Keys.F:
+					if (e.Shift)
+						paletteData.toggleTiled();
+					else
+						graphicsData.toggleTiled();
+					break;
+                case Keys.E:
+					if (e.Control)
+						graphicsData.toggleEndianness();
+					else if (e.Shift)
+						paletteData.toggleEndianness();
+					else
+						return;
+					break;
+                case Keys.Z:
+					if (e.Control)
+						graphicsData.toggleSkipSize();
+					else if (e.Shift)
+						paletteData.toggleSkipSize();
+					else
+						return; 
+break;
                 case Keys.W: graphicsData.toggleWidthSkipSize(); break;
                 case Keys.H: graphicsData.toggleHeightSkipSize(); break;
             }
@@ -234,7 +271,7 @@ namespace TiledGGD
 
             this.listBox1.Items.Add("Offset:\t\t0x" + String.Format("{0:X}", graphicsData.Offset));
 
-            this.listBox1.Items.Add("Panel Size:\t" + GraphicsData.Width + " x " + GraphicsData.Height);
+            this.listBox1.Items.Add("Panel Size:\t" + GraphicsData.PanelWidth + " x " + GraphicsData.PanelHeight);
 
             this.listBox1.Items.Add("Tile Size:\t\t" + GraphicsData.TileSize.X + " x " + GraphicsData.TileSize.Y);
 
@@ -734,17 +771,32 @@ namespace TiledGGD
                 throw new Exception("Invalid graphics height skip size action");
             updateMenu();
         }
-        #endregion
+		#endregion
 
-        #region tile size
-        private void setTileSizeTSMI_Click(object sender, EventArgs e)
+		#region panel size
+		private void setPanelSizeTSMI_Click(object sender, EventArgs e) {
+			SizeDialog tsd = new SizeDialog(new Point((int) GraphicsData.PanelWidth, (int) GraphicsData.PanelHeight));
+			tsd.ShowDialog();
+			Point p = tsd.NewSize;
+			if (((p.X | p.Y) & 1) == 0) {
+				GraphicsData.PanelWidth = (uint)p.X;
+				GraphicsData.PanelHeight = (uint)p.Y;
+				this.DataPanel_Paint(this, null);
+			} else {
+				MessageBox.Show("The dimensions of a tile can not be odd", "Invalid Tile Size");
+			}
+		}
+		#endregion
+
+		#region tile size
+		private void setTileSizeTSMI_Click(object sender, EventArgs e)
         {
-            TileSizeDialog tsd = new TileSizeDialog(GraphicsData.TileSize);
+            SizeDialog tsd = new SizeDialog(GraphicsData.TileSize);
             tsd.ShowDialog();
-            Point p = tsd.NewTileSize;
+            Point p = tsd.NewSize;
             if (((p.X | p.Y) & 1) == 0)
             {
-                GraphicsData.TileSize = tsd.NewTileSize;
+                GraphicsData.TileSize = tsd.NewSize;
                 this.DataPanel_Paint(this, null);
             }
             else
@@ -755,9 +807,9 @@ namespace TiledGGD
 
         private void setTileSizePalTSMI_Click(object sender, EventArgs e)
         {
-            TileSizeDialog tsd = new TileSizeDialog(PaletteData.TileSize);
+            SizeDialog tsd = new SizeDialog(PaletteData.TileSize);
             tsd.ShowDialog();
-            PaletteData.TileSize = tsd.NewTileSize;
+            PaletteData.TileSize = tsd.NewSize;
             this.DataPanel_Paint(this, null);
         }
         #endregion
@@ -805,7 +857,7 @@ namespace TiledGGD
             if (tsmi == null)
                 throw new Exception("Stupid error exception");
             bool specific = (tsmi.OwnerItem as ToolStripMenuItem).DropDownItems.IndexOf(tsmi) == 1;
-            if (tsmi.OwnerItem == this.graphReloadTSMI)
+            if (tsmi.OwnerItem == this.menuImageReload)
                 graphicsData.reload(specific);
             else if (tsmi.OwnerItem == this.palReloadTSMI)
                 paletteData.reload(specific);
