@@ -13,7 +13,7 @@ namespace TiledGGD
     {
         #region Fields
 
-        #region Field: Width
+        #region Field: PanelWidth
         /// <summary>
         /// The width of the shown data.
         /// </summary>
@@ -21,7 +21,7 @@ namespace TiledGGD
         /// <summary>
         /// Get or set the width of the shown data. Will automatically redraw the screen.
         /// </summary>
-        internal static uint Width
+        internal static uint PanelWidth
         {
             get { return width; }
             set
@@ -51,7 +51,7 @@ namespace TiledGGD
 
         #endregion
 
-        #region Field: Height
+        #region Field: PanelHeight
         /// <summary>
         /// The height of the shown data
         /// </summary>
@@ -59,7 +59,7 @@ namespace TiledGGD
         /// <summary>
         /// The height of the shown data
         /// </summary>
-        internal static uint Height
+        internal static uint PanelHeight
         {
             get { return height; }
             set
@@ -104,8 +104,8 @@ namespace TiledGGD
                 tileSize = value;
                 tileSize.X = Math.Abs(tileSize.X);
                 tileSize.Y = Math.Abs(tileSize.Y);
-                Height = Height;
-                Width = Width;
+                PanelHeight = PanelHeight;
+                PanelWidth = PanelWidth;
                 if (Tiled)
                     MainWindow.DoRefresh();
             }
@@ -131,8 +131,8 @@ namespace TiledGGD
                     if (tiled)
                     {
                         // make sure the width & height are correct with the current tilesize
-                        Width = Width;
-                        Height = Height;
+                        PanelWidth = PanelWidth;
+                        PanelHeight = PanelHeight;
                         // make sure the w/h skip sizes aren't too small
                         if (WidthSkipSizeUInt < TileSize.X)
                             WidthSkipSize = HWSkipSize.SKIPSIZE_1TILE;
@@ -386,7 +386,7 @@ namespace TiledGGD
 
             if (h > 0 && w > 0)
             {
-                Height = (uint)h; Width = (uint)w;
+                PanelHeight = (uint)h; PanelWidth = (uint)w;
             }
 
             // 2*WORD = 8 bytes unknown => skip int32
@@ -472,7 +472,7 @@ namespace TiledGGD
         internal override void paint(object sender, PaintEventArgs e)
         {
             Bitmap b = toBitmap();
-            Bitmap scaled = new Bitmap((int)(Width * Zoom), (int)(Height * Zoom));
+            Bitmap scaled = new Bitmap((int)(PanelWidth * Zoom), (int)(PanelHeight * Zoom));
             using (Graphics g = Graphics.FromImage(scaled))
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -1042,10 +1042,10 @@ namespace TiledGGD
         }
 
         #region methods: increase/decrease width/height
-        internal void increaseWidth() { Width += WidthSkipSizeUInt; }
-        internal void decreaseWidth() { Width -= WidthSkipSizeUInt; }
-        internal void increaseHeight() { Height += HeightSkipSizeUInt; }
-        internal void decreaseHeight() { Height -= HeightSkipSizeUInt; }
+        internal void increaseWidth() { PanelWidth += WidthSkipSizeUInt; }
+        internal void decreaseWidth() { PanelWidth -= WidthSkipSizeUInt; }
+        internal void increaseHeight() { PanelHeight += HeightSkipSizeUInt; }
+        internal void decreaseHeight() { PanelHeight -= HeightSkipSizeUInt; }
         #endregion
 
         #region Toggle methods
@@ -1059,30 +1059,18 @@ namespace TiledGGD
             Tiled = !Tiled;
         }
 
-        internal void toggleEndianness()
-        {
+        internal void toggleEndianness() {
             IsBigEndian = !IsBigEndian;
         }
 
-        internal void toggleSkipSize()
-        {
-            int ss = (int)SkipSize;
-            ss = (ss + 1) % 8;
-            SkipSize = (GraphicsSkipSize)ss;
+        internal void toggleSkipSize() {
+            SkipSize = (GraphicsSkipSize)(((int)SkipSize + 1) % 8);
         }
-
-        internal void toggleWidthSkipSize()
-        {
-            int wss = (int)WidthSkipSize;
-            wss = (wss + 1) % 6;
-            WidthSkipSize = (HWSkipSize)wss;
+        internal void toggleWidthSkipSize() {
+            WidthSkipSize = (HWSkipSize)(((int)WidthSkipSize + 1) % 6);
         }
-
-        internal void toggleHeightSkipSize()
-        {
-            int hss = (int)HeightSkipSize;
-            hss = (hss + 1) % 6;
-            HeightSkipSize = (HWSkipSize)hss;
+        internal void toggleHeightSkipSize() {
+            HeightSkipSize = (HWSkipSize)(((int)HeightSkipSize + 1) % 6);
         }
         #endregion
 
@@ -1109,8 +1097,8 @@ namespace TiledGGD
                 case GraphicsSkipSize.SKIPSIZE_1TILE: bytesToSkip /= (width / TileSize.X); bytesToSkip *= TileSize.Y; break;
                 case GraphicsSkipSize.SKIPSIZE_1PIXROW: break;
                 case GraphicsSkipSize.SKIPSIZE_1TILEROW: bytesToSkip *= TileSize.Y; break;
-                case GraphicsSkipSize.SKIPSIZE_WIDTHROWS: bytesToSkip *= Width; break;
-                case GraphicsSkipSize.SKIPSIZE_HEIGHTROWS: bytesToSkip *= Height; break;
+                case GraphicsSkipSize.SKIPSIZE_WIDTHROWS: bytesToSkip *= PanelWidth; break;
+                case GraphicsSkipSize.SKIPSIZE_HEIGHTROWS: bytesToSkip *= PanelHeight; break;
                 default: throw new Exception("Invalid Graphics Skip Size " + skipSize.ToString());
             }
             DoSkip(positive, bytesToSkip);
@@ -1154,11 +1142,11 @@ namespace TiledGGD
                 default: throw new Exception("Unknown error; invalid Graphics Format " + graphFormat.ToString());
             }
 
-            uint origHeight = Height;
+            uint origHeight = PanelHeight;
 
-            Height = (uint)(nPixels / Width);
-            if (Height * Width < nPixels)
-                Height++;
+            PanelHeight = (uint)(nPixels / PanelWidth);
+            if (PanelHeight * PanelWidth < nPixels)
+                PanelHeight++;
 
             long origOffset = Offset;
             Offset = 0;
@@ -1166,7 +1154,7 @@ namespace TiledGGD
             Bitmap bitout = this.toBitmap();
 
             Offset = origOffset;
-            Height = origHeight;
+            PanelHeight = origHeight;
             return bitout;
         }
     }
