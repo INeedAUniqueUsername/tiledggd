@@ -289,15 +289,15 @@ namespace TiledGGD.BindingTools
                         #region width
                         if (interp["width"] != null)
                         {
-                            uint origW = GraphicsData.Width;
+                            uint origW = GraphicsData.PanelWidth;
                             try
                             {
                                 uint w = (uint)(double)interp["width"];
-                                GraphicsData.Width = w;
+                                GraphicsData.PanelWidth = w;
                             }
                             catch (Exception)
                             {
-                                GraphicsData.Width = origW;
+                                GraphicsData.PanelWidth = origW;
                                 MainWindow.ShowError("Plugin warning: invalid width.\n"
                                                      + "Value " + interp.GetString("width") + " is ignored.");
                             }
@@ -307,15 +307,15 @@ namespace TiledGGD.BindingTools
                         #region height
                         if (interp["height"] != null)
                         {
-                            uint origH = GraphicsData.Height;
+                            uint origH = GraphicsData.PanelHeight;
                             try
                             {
                                 uint h = (uint)(double)interp["height"];
-                                GraphicsData.Height = h;
+                                GraphicsData.PanelHeight = h;
                             }
                             catch (Exception)
                             {
-                                GraphicsData.Height = origH;
+                                GraphicsData.PanelHeight = origH;
                                 MainWindow.ShowError("Plugin warning: invalid height.\n"
                                                      + "Value " + interp.GetString("height") + " is ignored.");
                             }
